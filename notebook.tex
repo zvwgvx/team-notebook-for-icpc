@@ -1,6 +1,8 @@
 \documentclass[11pt,a4paper]{article}
 
-% Packages
+% --------------------
+% Packages & config
+% --------------------
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[margin=1.5cm]{geometry}
@@ -9,121 +11,146 @@
 \usepackage{tikz}
 \usetikzlibrary{shapes,positioning,calc}
 \usepackage{fancyhdr}
-\usepackage{titlesec}
-\usepackage{listings}
-\usepackage{minted}
-\usepackage{multicol}
 \usepackage{tocloft}
 \usepackage{hyperref}
 
-% Colors
+% --------------------
+% Colors & hyperref
+% --------------------
 \definecolor{primaryblue}{RGB}{0,51,102}
 \definecolor{darkgray}{RGB}{51,51,51}
 
-% Hyperref setup
 \hypersetup{
     colorlinks=true,
     linkcolor=primaryblue,
-    filecolor=magenta,
     urlcolor=cyan,
     pdftitle={ICPC Team Notebook - LVTNB.Raumanian67},
     pdfauthor={LVTNB.Raumanian67},
 }
 
-% Code listing setup
-\usemintedstyle{vs}
-\setminted{
-    frame=lines,
-    framesep=2mm,
-    baselinestretch=1.2,
-    fontsize=\footnotesize,
-    linenos,
-    breaklines=true,
+% --------------------
+% Header/Footer setup
+% --------------------
+\setlength{\headheight}{32pt}
+\pagestyle{fancy}
+
+% Clear all defaults
+\fancyhf{}
+
+% Header Left: logo trường + tên đơn vị + tên team
+\fancyhead[L]{%
+  \raisebox{-0.2\height}{\includegraphics[height=1.2cm]{lvt.png}}\hspace{8pt}%
+  \raisebox{0.15cm}{\large\textcolor{primaryblue}{\textbf{HSGS Luong Van Tuy - LVTNB.Raumanian67}}}%
 }
 
-% Header/Footer
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[L]{\textcolor{primaryblue}{\textbf{HSGS Luong Van Tuy}}}
-\fancyfoot[L]{\thepage}
-\renewcommand{\headrulewidth}{2pt}
+% Header Center: trống
+\fancyhead[C]{}
+
+% Header Right: Page number
+\fancyhead[R]{%
+  \raisebox{0.15cm}{\large\textcolor{darkgray}{\textbf{Page \thepage}}}%
+}
+
+% Header rule - đường kẻ phân cách dưới header
+\renewcommand{\headrulewidth}{0.6pt}
 \renewcommand{\headrule}{\hbox to\headwidth{\color{primaryblue}\leaders\hrule height \headrulewidth\hfill}}
 
-% Title formatting
-\titleformat{\section}
-{\color{primaryblue}\Large\bfseries}
-{\thesection}{1em}{}[\titlerule]
+% Footer: trống
+\renewcommand{\footrulewidth}{0pt}
 
-\titleformat{\subsection}
-{\color{darkgray}\large\bfseries}
-{\thesubsection}{1em}{}
+% Empty style cho titlepage (page đầu tiên)
+\fancypagestyle{firstpage}{
+  \fancyhf{}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
 
+% TOC visual tweaks
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsecfont}{\color{primaryblue}\bfseries}
+\renewcommand{\cftsubsecfont}{\color{darkgray}}
+\setlength{\cftbeforesecskip}{4pt}
+\setlength{\cftbeforetoctitleskip}{-1.5cm}
+\setlength{\cftaftertoctitleskip}{1cm}
+
+% --------------------
 % Document
+% --------------------
 \begin{document}
 
-% Cover Page
+% --------------------
+% Page 1: Cover - ICPC info ở trên top
+% --------------------
 \begin{titlepage}
-    \centering
-    \thispagestyle{empty}
+  \thispagestyle{firstpage}
+  \centering
 
-    \vspace*{3cm}
+  \vspace*{0.2cm}
 
-    % Logo
-    \includegraphics[width=0.35\textwidth]{lvt.png}
+  % Logo ICPC ở trên cùng (to hơn một chút)
+  \includegraphics[width=0.23\textwidth]{icpc.png}
 
-    \vspace{1.5cm}
+  \vspace{0.4cm}
+  {\Large\textcolor{primaryblue}{\textbf{The 2025 ICPC Vietnam National Contest}}}
 
-    % University
-    {\LARGE HSGS Luong Van Tuy}
+  \vspace{2.2cm}
 
-    \vspace{0.3cm}
-    \begin{tikzpicture}
-      \draw[color=primaryblue, line width=0.4pt] (0.01,0) -- (0.2\textwidth-0.01,0);
-      \node[draw=primaryblue, shape=diamond, inner sep=1pt] at (0,0) {};
-      \node[draw=primaryblue, shape=diamond, inner sep=1pt] at (0.2\textwidth,0) {};
-    \end{tikzpicture}
-    \vspace{0.7cm}
+  % Logo trường
+  \includegraphics[width=0.36\textwidth]{lvt.png}
 
-    % Team name
-    {\Huge\textbf{LVTNB.Raumanian67}}
+  \vspace{1.6cm}
 
-    \vspace{0.5cm}
+  {\huge \textbf{HSGS Luong Van Tuy}}
 
-    % Team Members
-    {\Large Giang Truong Vu, Thai Son Huu Vu, Nhat Minh Doan}
+  \vspace{0.4cm}
+  \begin{tikzpicture}
+    \draw[color=primaryblue, line width=0.4pt] (0.01,0) -- (0.25\textwidth-0.01,0);
+    \node[draw=primaryblue, shape=diamond, inner sep=1.2pt] at (0,0) {};
+    \node[draw=primaryblue, shape=diamond, inner sep=1.2pt] at (0.25\textwidth,0) {};
+  \end{tikzpicture}
 
-    \vfill
+  \vspace{0.8cm}
+  {\Huge\textbf{LVTNB.Raumanian67}}
 
-    % Year
-    {\large 2025}
+  \vspace{0.6cm}
+  {\LARGE Giang Truong Vu, Thai Son Huu Vu, Nhat Minh Doan}
+
+  \vfill
+
+  {\Large 09 November 2025}
 
 \end{titlepage}
 
-% Table of Contents
-\newpage
+% --------------------
+% Page 2 trở đi: CÓ header với page number ở top right
+% --------------------
+\clearpage
+
+\begin{center}
+  \vspace*{1.6cm}
+  {\Huge\textcolor{primaryblue}{\textbf{Contents}}}
+
+  \vspace{0.6cm}
+  \begin{tikzpicture}
+    \draw[color=primaryblue, line width=0.4pt] (0.01,0) -- (0.25\textwidth-0.01,0);
+    \node[draw=primaryblue, shape=diamond, inner sep=1.2pt] at (0,0) {};
+    \node[draw=primaryblue, shape=diamond, inner sep=1.2pt] at (0.25\textwidth,0) {};
+  \end{tikzpicture}
+\end{center}
+
+\vspace{1.6cm}
+\setlength{\parindent}{0pt}
 \tableofcontents
+
+% --------------------
+% Thêm các section demo để test
+% --------------------
 \newpage
+\section{Graph Theory}
+Content here...
 
-% Main content sections (you can add your algorithms here)
-\section{Data Structures}
-% Add your data structure implementations here
-
-\section{Graph Algorithms}
-% Add your graph algorithms here
-
-\section{Mathematics}
-% Add your math algorithms here
-
-\section{String Algorithms}
-% Add your string algorithms here
-
-\section{Geometry}
-% Add your geometry algorithms here
-
+\newpage
 \section{Dynamic Programming}
-% Add your DP solutions here
-
-\section{Miscellaneous}
-% Add other useful code here
+More content...
 
 \end{document}

@@ -1,0 +1,129 @@
+\documentclass[11pt,a4paper]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[margin=1.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,positioning,calc}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{listings}
+\usepackage{minted}
+\usepackage{multicol}
+\usepackage{tocloft}
+\usepackage{hyperref}
+
+% Colors
+\definecolor{primaryblue}{RGB}{0,51,102}
+\definecolor{darkgray}{RGB}{51,51,51}
+
+% Hyperref setup
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primaryblue,
+    filecolor=magenta,
+    urlcolor=cyan,
+    pdftitle={ICPC Team Notebook - LVTNB.Raumanian67},
+    pdfauthor={LVTNB.Raumanian67},
+}
+
+% Code listing setup
+\usemintedstyle{vs}
+\setminted{
+    frame=lines,
+    framesep=2mm,
+    baselinestretch=1.2,
+    fontsize=\footnotesize,
+    linenos,
+    breaklines=true,
+}
+
+% Header/Footer
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textcolor{primaryblue}{\textbf{HSGS Luong Van Tuy}}}
+\fancyfoot[L]{\thepage}
+\renewcommand{\headrulewidth}{2pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{primaryblue}\leaders\hrule height \headrulewidth\hfill}}
+
+% Title formatting
+\titleformat{\section}
+{\color{primaryblue}\Large\bfseries}
+{\thesection}{1em}{}[\titlerule]
+
+\titleformat{\subsection}
+{\color{darkgray}\large\bfseries}
+{\thesubsection}{1em}{}
+
+% Document
+\begin{document}
+
+% Cover Page
+\begin{titlepage}
+    \centering
+    \thispagestyle{empty}
+
+    \vspace*{3cm}
+
+    % Logo
+    \includegraphics[width=0.35\textwidth]{lvt.png}
+
+    \vspace{1.5cm}
+
+    % University
+    {\LARGE HSGS Luong Van Tuy}
+
+    \vspace{0.3cm}
+    \begin{tikzpicture}
+      \draw[color=primaryblue, line width=0.4pt] (0.01,0) -- (0.2\textwidth-0.01,0);
+      \node[draw=primaryblue, shape=diamond, inner sep=1pt] at (0,0) {};
+      \node[draw=primaryblue, shape=diamond, inner sep=1pt] at (0.2\textwidth,0) {};
+    \end{tikzpicture}
+    \vspace{0.7cm}
+
+    % Team name
+    {\Huge\textbf{LVTNB.Raumanian67}}
+
+    \vspace{0.5cm}
+
+    % Team Members
+    {\Large Giang Truong Vu, Thai Son Huu Vu, Nhat Minh Doan}
+
+    \vfill
+
+    % Year
+    {\large 2025}
+
+\end{titlepage}
+
+% Table of Contents
+\newpage
+\tableofcontents
+\newpage
+
+% Main content sections (you can add your algorithms here)
+\section{Data Structures}
+% Add your data structure implementations here
+
+\section{Graph Algorithms}
+% Add your graph algorithms here
+
+\section{Mathematics}
+% Add your math algorithms here
+
+\section{String Algorithms}
+% Add your string algorithms here
+
+\section{Geometry}
+% Add your geometry algorithms here
+
+\section{Dynamic Programming}
+% Add your DP solutions here
+
+\section{Miscellaneous}
+% Add other useful code here
+
+\end{document}

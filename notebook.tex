@@ -564,14 +564,12 @@ void topological_sort(int n) {
 \subsection{Lowest Common Ancestor (LCA)}
 \begin{lstlisting}
 constexpr int lg = 19;
-
 vector<int> adj[N];
-int depth[N], lift[N][lg];
+int depth[N], par[N][lg];
 
 void dfs_lca(int u, int p) {
-    lift[u][0] = p;
-    for (int j = 1; j < lg; ++j) lift[u][j] = lift[lift[u][j - 1]][j - 1];
-
+    par[u][0] = p;
+    for (int j = 1; j < lg; ++j) par[u][j] = par[par[u][j - 1]][j - 1];
     for (int v : adj[u]) if (v != p) {
         depth[v] = depth[u] + 1;
         dfs_lca(v, u);
@@ -580,22 +578,13 @@ void dfs_lca(int u, int p) {
 
 int lca(int u, int v) {
     if (depth[u] < depth[v]) swap(u, v);
-
-    int diff = depth[u] - depth[v];
-    for (int j = 0; j < lg; ++j) {
-        if (diff & (1 << j)) u = lift[u][j];
-    }
-
-    if (u == v) return u;
-
     for (int j = lg - 1; j >= 0; --j) {
-        if (lift[u][j] != lift[v][j]) {
-            u = lift[u][j];
-            v = lift[v][j];
-        }
+        if (depth[par[u][j]] >= depth[v]) u = par[u][j];
     }
-
-    return lift[u][0];
+    for (int j = lg - 1; j >= 0; --j) {
+        if (par[u][j] != par[v][j]) u = par[u][j], v = par[v][j];
+    }
+    return u == v ? u : par[u][0];
 }
 \end{lstlisting}
 
@@ -732,15 +721,18 @@ ll mod_pow(ll base, ll exp) {
 ll mod_inv(ll a) { return mod_pow(a, MOD - 2); }
 \end{lstlisting}
 
-\subsection{GCD \& Extended Euclidean}
+\subsection{Modular Inverse (General)}
 \begin{lstlisting}
-ll gcd(ll a, ll b) { return b ? gcd(b, a % b) : a; }
-ll lcm(ll a, ll b) { return a / gcd(a, b) * b; }
+ll extgcd(ll a, ll b, ll &x, ll &y) {
+    if (!b) return x = (a >= 0 ? 1 : -1), y = 0, llabs(a);
+    ll g = extgcd(b, a % b, y, x);
+    return y -= a / b * x, g;
+}
 
-ll extended_gcd(ll a, ll b, ll &x, ll &y) {
-    if (!b) return x = 1, y = 0, a;
-    ll d = extended_gcd(b, a % b, y, x);
-    return y -= a / b * x, d;
+ll modinv(ll a, ll m) {
+    a = ((a % m) + m) % m;
+    ll x, y, g = extgcd(a, m, x, y);
+    return g != 1 ? -1 : ((x % m) + m) % m;
 }
 \end{lstlisting}
 
@@ -957,94 +949,6 @@ vector<int> manacher(const string &s) {
 % ==============================================
 \newpage
 \section{Miscellaneous}
-
-\subsection{Binary Search}
-\begin{lstlisting}
-// Binary search on answer
-int binary_search(int lo, int hi) {
-    int res = -1;
-    while (lo <= hi) {
-        int mid = lo + (hi - lo >> 1);
-        if (check(mid)) res = mid, hi = mid - 1;
-        else lo = mid + 1;
-    }
-    return res;
-}
-
-int lower_bound(const vector<int> &arr, int x) {
-    int lo = 0, hi = arr.size();
-    while (lo < hi) {
-        int mid = lo + (hi - lo >> 1);
-        (arr[mid] < x) ? lo = mid + 1 : hi = mid;
-    }
-    return lo;
-}
-
-int upper_bound(const vector<int> &arr, int x) {
-    int lo = 0, hi = arr.size();
-    while (lo < hi) {
-        int mid = lo + (hi - lo >> 1);
-        (arr[mid] <= x) ? lo = mid + 1 : hi = mid;
-    }
-    return lo;
-}
-\end{lstlisting}
-
-\subsection{Two Pointers}
-\begin{lstlisting}
-pair<int,int> two_sum(const vector<int> &arr, int target) {
-    int l = 0, r = arr.size() - 1;
-    while (l < r) {
-        int sum = arr[l] + arr[r];
-        if (sum == target) return {l, r};
-        (sum < target) ? ++l : --r;
-    }
-    return {-1, -1};
-}
-
-int remove_duplicates(vector<int> &arr) {
-    if (arr.empty()) return 0;
-    int j = 0;
-    for (int i = 1; i < arr.size(); ++i) {
-        if (arr[i] != arr[j]) arr[++j] = arr[i];
-    }
-    return j + 1;
-}
-\end{lstlisting}
-
-\newpage
-\subsection{Sliding Window}
-\begin{lstlisting}
-int max_sum_subarray(const vector<int> &arr, int k) {
-    int n = arr.size();
-    if (n < k) return -1;
-
-    int win = 0;
-    for (int i = 0; i < k; ++i) win += arr[i];
-
-    int mx = win;
-    for (int i = k; i < n; ++i) {
-        win += arr[i] - arr[i - k];
-        mx = max(mx, win);
-    }
-    return mx;
-}
-
-int longest_k_distinct(const string &s, int k) {
-    unordered_map<char, int> freq;
-    int l = 0, mx = 0;
-
-    for (int r = 0; r < s.size(); ++r) {
-        ++freq[s[r]];
-        while (freq.size() > k) {
-            if (--freq[s[l]] == 0) freq.erase(s[l]);
-            ++l;
-        }
-        mx = max(mx, r - l + 1);
-    }
-    return mx;
-}
-\end{lstlisting}
 
 \subsection{Mo's Algorithm}
 \begin{lstlisting}
